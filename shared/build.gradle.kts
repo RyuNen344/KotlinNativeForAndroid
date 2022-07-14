@@ -1,44 +1,69 @@
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
 }
 
 version = "1.0"
 
-kotlin {
-    android()
-    androidNativeX64()
-    androidNativeArm64()
+tasks {
+    val prepareAndroidNdkSo by creating {
+        dependsOn(build)
+        val debugArm32SoFolder = File(buildDir, "bin/androidNativeArm32/debugShared")
+        val jniArm32Folder = File(projectDir, "../androidApp/src/main/jniLibs/armeabi-v7a")
+        val debugArm64SoFolder = File(buildDir, "bin/androidNativeArm64/debugShared")
+        val jniArm64Folder = File(projectDir, "../androidApp/src/main/jniLibs/arm64-v8a")
 
-    sourceSets {
-        val commonMain by getting
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
+        val debugX86SoFolder = File(buildDir, "bin/androidNativeX86/debugShared")
+        val jniX86Folder = File(projectDir, "../androidApp/src/main/jniLibs/x86")
+        val debugX64SoFolder = File(buildDir, "bin/androidNativeX64/debugShared")
+        val jniX64Folder = File(projectDir, "../androidApp/src/main/jniLibs/x86_64")
+
+        doLast {
+            copy {
+                from(debugArm32SoFolder)
+                into(jniArm32Folder)
+                include("*.so")
             }
-        }
-        val androidNativeX64Main by getting
-        val androidNativeArm64Main by getting
-        val androidNativeMain by creating {
-            dependsOn(commonMain)
-            androidNativeX64Main.dependsOn(this)
-            androidNativeArm64Main.dependsOn(this)
-        }
-        val androidNativeX64Test by getting
-        val androidNativeArm64Test by getting
-        val androidNativeTest by creating {
-            dependsOn(commonTest)
-            androidNativeX64Test.dependsOn(this)
-            androidNativeArm64Test.dependsOn(this)
+            copy {
+                from(debugArm64SoFolder)
+                into(jniArm64Folder)
+                include("*.so")
+            }
+            copy {
+                from(debugX86SoFolder)
+                into(jniX86Folder)
+                include("*.so")
+            }
+            copy {
+                from(debugX64SoFolder)
+                into(jniX64Folder)
+                include("*.so")
+            }
         }
     }
 }
 
-android {
-    compileSdk = 32
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdk = 28
-        targetSdk = 32
+kotlin {
+    // :androidAppが:sharedのビルドに依存するようにjvmも定義
+    jvm()
+    listOf(
+        androidNativeX86(),
+        androidNativeX64(),
+        androidNativeArm32(),
+        androidNativeArm64()
+    ).forEach {
+        it.binaries.sharedLib()
+    }
+
+    sourceSets {
+        val androidNativeX86Main by getting
+        val androidNativeX64Main by getting
+        val androidNativeArm32Main by getting
+        val androidNativeArm64Main by getting
+        val androidNativeMain by creating {
+            androidNativeX86Main.dependsOn(this)
+            androidNativeX64Main.dependsOn(this)
+            androidNativeArm32Main.dependsOn(this)
+            androidNativeArm64Main.dependsOn(this)
+        }
     }
 }

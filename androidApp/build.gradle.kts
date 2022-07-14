@@ -13,10 +13,19 @@ android {
         versionName = "1.0"
     }
     buildTypes {
+        getByName("debug") {
+            isDebuggable = true
+        }
         getByName("release") {
             isMinifyEnabled = false
         }
     }
+//    externalNativeBuild {
+//        cmake {
+//            path = file("src/main/cpp/CMakeLists.txt")
+//            version = "3.18.1"
+//        }
+//    }
 }
 
 dependencies {
