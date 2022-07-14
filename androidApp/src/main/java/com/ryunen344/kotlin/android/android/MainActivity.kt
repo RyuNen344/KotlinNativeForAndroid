@@ -11,12 +11,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val sharedWrapper = SharedWrapper()
+        val ndkWrapper = NdkWrapper()
 
         val tv: TextView = findViewById(R.id.text_view)
 
         val button = findViewById<Button>(R.id.button_run)
         button.setOnClickListener {
-            println(sharedWrapper.getStringFromKotlinNative())
+            println(ndkWrapper.stringFromJNI())
         }
     }
 }

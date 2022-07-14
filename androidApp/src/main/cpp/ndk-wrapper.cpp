@@ -2,7 +2,7 @@
 #include <string>
 
 extern "C" JNIEXPORT jstring JNICALL
-Java_com_ryunen344_kotlin_android_android_SharedWrapper_stringFromJNI(
+Java_com_ryunen344_kotlin_android_android_NdkWrapper_stringFromJNI(
         JNIEnv* env,
         jobject /* this */) {
     std::string hello = "Hello from C++";

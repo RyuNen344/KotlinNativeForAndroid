@@ -1,14 +1,19 @@
 cmake_minimum_required(VERSION 3.18.1)
-project("android")
+project("ndklib")
 add_library(
-        android
+        ndklib
         SHARED
-        shared-wrapper.cpp)
+        ndk-wrapper.cpp)
 
-#find_library(
-#        libshared
-#        shared)
-#
-#target_link_libraries(
-#        hogehoge
-#        ${libshared})
+find_library(
+        log-lib
+        log)
+
+target_link_libraries(
+        ndklib
+        ${log-lib})
+
+add_library(
+        shared
+        SHARED
+        IMPORTED)
