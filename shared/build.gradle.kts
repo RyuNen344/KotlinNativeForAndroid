@@ -6,35 +6,35 @@ version = "1.0"
 
 tasks.build {
     val debugArm32SoFolder = File(buildDir, "bin/androidNativeArm32/debugShared")
-    val jniArm32Folder = File(projectDir, "../androidApp/src/main/jniLibs/armeabi-v7a")
+    val jniArm32Folder = File(projectDir, "../androidApp/src/main/cpp/libs/armeabi-v7a")
     val debugArm64SoFolder = File(buildDir, "bin/androidNativeArm64/debugShared")
-    val jniArm64Folder = File(projectDir, "../androidApp/src/main/jniLibs/arm64-v8a")
+    val jniArm64Folder = File(projectDir, "../androidApp/src/main/cpp/libs/arm64-v8a")
 
     val debugX86SoFolder = File(buildDir, "bin/androidNativeX86/debugShared")
-    val jniX86Folder = File(projectDir, "../androidApp/src/main/jniLibs/x86")
+    val jniX86Folder = File(projectDir, "../androidApp/src/main/cpp/libs/x86")
     val debugX64SoFolder = File(buildDir, "bin/androidNativeX64/debugShared")
-    val jniX64Folder = File(projectDir, "../androidApp/src/main/jniLibs/x86_64")
+    val jniX64Folder = File(projectDir, "../androidApp/src/main/cpp/libs/x86_64")
 
     doLast {
         copy {
             from(debugArm32SoFolder)
             into(jniArm32Folder)
-            include("*.so")
+            include("*.so", "*.h")
         }
         copy {
             from(debugArm64SoFolder)
             into(jniArm64Folder)
-            include("*.so")
+            include("*.so", "*.h")
         }
         copy {
             from(debugX86SoFolder)
             into(jniX86Folder)
-            include("*.so")
+            include("*.so", "*.h")
         }
         copy {
             from(debugX64SoFolder)
             into(jniX64Folder)
-            include("*.so")
+            include("*.so", "*.h")
         }
     }
 }

@@ -10,4 +10,5 @@
 .cxx
 local.properties
 /iosApp/Pods/
-/androidApp/src/main/jniLibs/*/*.so
+/androidApp/src/main/cpp/libs/*/*.so
+/androidApp/src/main/cpp/libs/*/*.h
