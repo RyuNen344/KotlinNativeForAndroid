@@ -4,38 +4,47 @@ plugins {
 
 version = "1.0"
 
+val debugArm32SoFolder = File(buildDir, "bin/androidNativeArm32/debugShared")
+val jniArm32Folder = File(projectDir, "../androidApp/src/main/cpp/libs/armeabi-v7a")
+val debugArm64SoFolder = File(buildDir, "bin/androidNativeArm64/debugShared")
+val jniArm64Folder = File(projectDir, "../androidApp/src/main/cpp/libs/arm64-v8a")
+
+val debugX86SoFolder = File(buildDir, "bin/androidNativeX86/debugShared")
+val jniX86Folder = File(projectDir, "../androidApp/src/main/cpp/libs/x86")
+val debugX64SoFolder = File(buildDir, "bin/androidNativeX64/debugShared")
+val jniX64Folder = File(projectDir, "../androidApp/src/main/cpp/libs/x86_64")
+
+val targets = listOf(
+    debugArm32SoFolder to jniArm32Folder,
+    debugArm64SoFolder to jniArm64Folder,
+    debugX86SoFolder to jniX86Folder,
+    debugX64SoFolder to jniX64Folder,
+)
+
+val nativeFiles = listOf("*.so", "*.h")
+
 tasks.build {
-    val debugArm32SoFolder = File(buildDir, "bin/androidNativeArm32/debugShared")
-    val jniArm32Folder = File(projectDir, "../androidApp/src/main/cpp/libs/armeabi-v7a")
-    val debugArm64SoFolder = File(buildDir, "bin/androidNativeArm64/debugShared")
-    val jniArm64Folder = File(projectDir, "../androidApp/src/main/cpp/libs/arm64-v8a")
-
-    val debugX86SoFolder = File(buildDir, "bin/androidNativeX86/debugShared")
-    val jniX86Folder = File(projectDir, "../androidApp/src/main/cpp/libs/x86")
-    val debugX64SoFolder = File(buildDir, "bin/androidNativeX64/debugShared")
-    val jniX64Folder = File(projectDir, "../androidApp/src/main/cpp/libs/x86_64")
-
+    doFirst {
+        targets.map { (_, into) -> fileTree(into.path) { include("*.so", "*.h") } }
+                .flatten()
+                .forEach { it.delete() }
+    }
     doLast {
-        copy {
-            from(debugArm32SoFolder)
-            into(jniArm32Folder)
-            include("*.so", "*.h")
+        targets.forEach { (from, into) ->
+            copy {
+                from(from)
+                into(into)
+                include(nativeFiles)
+            }
         }
-        copy {
-            from(debugArm64SoFolder)
-            into(jniArm64Folder)
-            include("*.so", "*.h")
-        }
-        copy {
-            from(debugX86SoFolder)
-            into(jniX86Folder)
-            include("*.so", "*.h")
-        }
-        copy {
-            from(debugX64SoFolder)
-            into(jniX64Folder)
-            include("*.so", "*.h")
-        }
+    }
+}
+
+tasks.clean {
+    doLast {
+        targets.map { (_, into) -> fileTree(into.path) { include("*.so", "*.h") } }
+                .flatten()
+                .forEach { it.delete() }
     }
 }
 
