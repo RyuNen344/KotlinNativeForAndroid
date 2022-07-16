@@ -6,4 +6,6 @@ class NdkWrapper {
     }
 
     external fun stringFromJNI(): String
+
+    external fun argumentTest(count: Int): Long
 }

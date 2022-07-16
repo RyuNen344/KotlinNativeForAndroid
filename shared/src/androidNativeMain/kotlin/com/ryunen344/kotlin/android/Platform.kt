@@ -1,5 +1,7 @@
 package com.ryunen344.kotlin.android
 
 class Platform {
-    val platform: String = "android native aaaaaaaaaaaaaaaaaaaaaaaaaa"
+    fun getPlatform(): String {
+        return "android native aaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
 }

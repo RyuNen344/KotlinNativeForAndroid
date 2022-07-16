@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.button_run)
         button.setOnClickListener {
             println(ndkWrapper.stringFromJNI())
+            println(ndkWrapper.argumentTest(345))
         }
     }
 }
