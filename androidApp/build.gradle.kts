@@ -12,12 +12,26 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+
+    signingConfigs {
+        create("release") {
+            storeFile = File(projectDir.path + "/keystore/android.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
         getByName("debug") {
             isDebuggable = true
+            isJniDebuggable = true
         }
         getByName("release") {
+            isDebuggable = false
+            isJniDebuggable = false
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     externalNativeBuild {

@@ -4,14 +4,14 @@ plugins {
 
 version = "1.0"
 
-val debugArm32SoFolder = File(buildDir, "bin/androidNativeArm32/debugShared")
+val debugArm32SoFolder = File(buildDir, "bin/androidNativeArm32/releaseShared")
 val jniArm32Folder = File(projectDir, "../androidApp/src/main/cpp/libs/armeabi-v7a")
-val debugArm64SoFolder = File(buildDir, "bin/androidNativeArm64/debugShared")
+val debugArm64SoFolder = File(buildDir, "bin/androidNativeArm64/releaseShared")
 val jniArm64Folder = File(projectDir, "../androidApp/src/main/cpp/libs/arm64-v8a")
 
-val debugX86SoFolder = File(buildDir, "bin/androidNativeX86/debugShared")
+val debugX86SoFolder = File(buildDir, "bin/androidNativeX86/releaseShared")
 val jniX86Folder = File(projectDir, "../androidApp/src/main/cpp/libs/x86")
-val debugX64SoFolder = File(buildDir, "bin/androidNativeX64/debugShared")
+val debugX64SoFolder = File(buildDir, "bin/androidNativeX64/releaseShared")
 val jniX64Folder = File(projectDir, "../androidApp/src/main/cpp/libs/x86_64")
 
 val targets = listOf(
