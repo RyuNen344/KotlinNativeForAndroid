@@ -11,6 +11,13 @@ android {
         targetSdk = 32
         versionCode = 1
         versionName = "1.0"
+
+        externalNativeBuild {
+            cmake {
+                // RelWithDebInfoにならないように上書き
+                arguments.add("-DCMAKE_BUILD_TYPE=Release")
+            }
+        }
     }
 
     signingConfigs {
