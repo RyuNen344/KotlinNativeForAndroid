@@ -3,6 +3,7 @@ package com.ryunen344.kotlin.android.android
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
@@ -17,28 +18,28 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.button_pure_native)?.let {
             it.setOnClickListener {
-                val pureNativeMills = measureTimeMillis {
+                val pureNativeMills = measureNanoTime {
                     ndkWrapper.fibonacciNative(count)
                 }
-                println("$pureNativeMills ms")
+                println("$pureNativeMills ns")
             }
         }
 
         findViewById<Button>(R.id.button_kotlin_native)?.let {
             it.setOnClickListener {
-                val kNativeMills = measureTimeMillis {
+                val kNativeMills = measureNanoTime {
                     ndkWrapper.fibonacciKNative(count)
                 }
-                println("$kNativeMills ms")
+                println("$kNativeMills ns")
             }
         }
 
         findViewById<Button>(R.id.button_kotlin)?.let {
             it.setOnClickListener {
-                val kMills = measureTimeMillis {
+                val kMills = measureNanoTime {
                     fibonacci(count)
                 }
-                println("$kMills ms")
+                println("$kMills ns")
             }
         }
     }

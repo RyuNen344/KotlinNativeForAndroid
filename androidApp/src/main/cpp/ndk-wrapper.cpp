@@ -29,14 +29,12 @@ Java_com_ryunen344_kotlin_android_android_NdkWrapper_fibonacciKNative(
         jobject,
         jlong count) {
     libshared_ExportedSymbols *symbols = libshared_symbols();
-    return symbols->kotlin.root.com.ryunen344.kotlin.android.fibonacci(count, 0, 1);
+    return symbols->kotlin.root.com.ryunen344.kotlin.android.fibonacci(count);
 }
 
 long long int fibonacciNative(long long x) {
-    if (x == 0) {
-        return 0;
-    } else if (x == 1) {
-        return 1;
+    if (x <= 1) {
+        return x;
     } else {
         return fibonacciNative(x - 1) + fibonacciNative(x - 2);
     }
