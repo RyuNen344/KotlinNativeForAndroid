@@ -2,7 +2,6 @@ package com.ryunen344.kotlin.android.android
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -10,15 +9,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val sharedWrapper = SharedWrapper()
         val ndkWrapper = NdkWrapper()
 
-        val tv: TextView = findViewById(R.id.text_view)
+        findViewById<Button>(R.id.button_pure_native)?.let {
+            it.setOnClickListener {
+                println(ndkWrapper.fibonacciNative(10))
+            }
+        }
 
-        val button = findViewById<Button>(R.id.button_run)
-        button.setOnClickListener {
-            println(ndkWrapper.stringFromJNI())
-            println(ndkWrapper.argumentTest(345))
+        findViewById<Button>(R.id.button_kotlin_native)?.let {
+            it.setOnClickListener {
+                println(ndkWrapper.fibonacciKNative(10))
+            }
+        }
+
+        findViewById<Button>(R.id.button_kotlin)?.let {
+            it.setOnClickListener {
+                println(fibonacci(10))
+            }
         }
     }
 }

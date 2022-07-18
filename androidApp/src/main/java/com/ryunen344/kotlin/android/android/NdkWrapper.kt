@@ -7,5 +7,7 @@ class NdkWrapper {
 
     external fun stringFromJNI(): String
 
-    external fun argumentTest(count: Int): Long
+    external fun fibonacciNative(count: Long): Long
+
+    external fun fibonacciKNative(count: Long): Long
 }

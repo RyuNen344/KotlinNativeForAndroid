@@ -2,22 +2,42 @@
 #include <string>
 #include "libshared_api.h"
 
+long long int fibonacciNative(long long x);
+
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_ryunen344_kotlin_android_android_NdkWrapper_stringFromJNI(
         JNIEnv *env,
         jobject) {
     libshared_ExportedSymbols *symbols = libshared_symbols();
     libshared_kref_com_ryunen344_kotlin_android_Platform platform = libshared_kref_com_ryunen344_kotlin_android_Platform();
-    std::string hello = symbols->kotlin.root.com.ryunen344.kotlin.android.Platform.getPlatform(platform);
+    std::string hello = symbols->kotlin.root.com.ryunen344.kotlin.android.Platform.getPlatform(
+            platform);
     return env->NewStringUTF(hello.c_str());
 }
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_com_ryunen344_kotlin_android_android_NdkWrapper_argumentTest(
+Java_com_ryunen344_kotlin_android_android_NdkWrapper_fibonacciNative(
         JNIEnv *env,
         jobject,
-        jint count) {
+        jlong count) {
+    return fibonacciNative(count);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_com_ryunen344_kotlin_android_android_NdkWrapper_fibonacciKNative(
+        JNIEnv *env,
+        jobject,
+        jlong count) {
     libshared_ExportedSymbols *symbols = libshared_symbols();
-    libshared_kref_com_ryunen344_kotlin_android_Fibonacci fibonacci = libshared_kref_com_ryunen344_kotlin_android_Fibonacci();
-    return symbols->kotlin.root.com.ryunen344.kotlin.android.Fibonacci.invoke(fibonacci, count);
+    return symbols->kotlin.root.com.ryunen344.kotlin.android.fibonacci(count, 0, 1);
+}
+
+long long int fibonacciNative(long long x) {
+    if (x == 0) {
+        return 0;
+    } else if (x == 1) {
+        return 1;
+    } else {
+        return fibonacciNative(x - 1) + fibonacciNative(x - 2);
+    }
 }
