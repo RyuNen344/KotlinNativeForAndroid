@@ -3,8 +3,12 @@ package com.ryunen344.kotlin.android.android
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
+
+    private val count: Long = 10
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -13,19 +17,28 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.button_pure_native)?.let {
             it.setOnClickListener {
-                println(ndkWrapper.fibonacciNative(10))
+                val pureNativeMills = measureTimeMillis {
+                    ndkWrapper.fibonacciNative(count)
+                }
+                println("$pureNativeMills ms")
             }
         }
 
         findViewById<Button>(R.id.button_kotlin_native)?.let {
             it.setOnClickListener {
-                println(ndkWrapper.fibonacciKNative(10))
+                val kNativeMills = measureTimeMillis {
+                    ndkWrapper.fibonacciKNative(count)
+                }
+                println("$kNativeMills ms")
             }
         }
 
         findViewById<Button>(R.id.button_kotlin)?.let {
             it.setOnClickListener {
-                println(fibonacci(10))
+                val kMills = measureTimeMillis {
+                    fibonacci(count)
+                }
+                println("$kMills ms")
             }
         }
     }
