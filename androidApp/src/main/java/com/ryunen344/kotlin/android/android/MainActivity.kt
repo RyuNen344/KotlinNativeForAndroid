@@ -1,14 +1,21 @@
 package com.ryunen344.kotlin.android.android
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.system.measureNanoTime
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
 
-    private val count: Long = 10
+    companion object {
+        private const val TAG = "MainActivity"
+    }
+
+    private val count = 30L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,28 +25,37 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.button_pure_native)?.let {
             it.setOnClickListener {
-                val pureNativeMills = measureNanoTime {
-                    ndkWrapper.fibonacciNative(count)
+                lifecycleScope.launch(Dispatchers.Default) {
+                    val result: Long
+                    val pureNativeMills = measureTimeMillis {
+                        result = ndkWrapper.fibonacciNative(count)
+                    }
+                    Log.wtf(TAG, "native $result $pureNativeMills ms")
                 }
-                println("$pureNativeMills ns")
             }
         }
 
         findViewById<Button>(R.id.button_kotlin_native)?.let {
             it.setOnClickListener {
-                val kNativeMills = measureNanoTime {
-                    ndkWrapper.fibonacciKNative(count)
+                lifecycleScope.launch(Dispatchers.Default) {
+                    val result: Long
+                    val kNativeMills = measureTimeMillis {
+                        result = ndkWrapper.fibonacciKNative(count)
+                    }
+                    Log.wtf(TAG, "kotlin native $result $kNativeMills ms")
                 }
-                println("$kNativeMills ns")
             }
         }
 
         findViewById<Button>(R.id.button_kotlin)?.let {
             it.setOnClickListener {
-                val kMills = measureNanoTime {
-                    fibonacci(count)
+                lifecycleScope.launch(Dispatchers.Default) {
+                    val result: Long
+                    val kMills = measureTimeMillis {
+                        result = ndkWrapper.fibonacciK(count)
+                    }
+                    Log.wtf(TAG, "kotlin $result $kMills ms")
                 }
-                println("$kMills ns")
             }
         }
     }

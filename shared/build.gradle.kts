@@ -25,7 +25,7 @@ val nativeFiles = listOf("*.so", "*.h")
 
 tasks.build {
     doFirst {
-        targets.map { (_, into) -> fileTree(into.path) { include("*.so", "*.h") } }
+        targets.map { (_, into) -> fileTree(into.path) { include(nativeFiles) } }
                 .flatten()
                 .forEach { it.delete() }
     }
